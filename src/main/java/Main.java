@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 import java.util.List;
 
-import static myproject.cars.CarService.*;
+import static myproject.methods.ChangeColorToGreen.changeColorToGreen;
+import static myproject.methods.PrintNewCar.*;
+import static myproject.methods.PrintPastCars.printPastCars;
 
 public class Main {
     //it's Main origin
