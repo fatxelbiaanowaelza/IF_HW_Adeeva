@@ -13,6 +13,7 @@ public class TaskSearchPage {
     private final SelenideElement taskLink = $x("//*[@data-id='-4']").as("Ссылка 'Все задачи'");
     private final SelenideElement searchButton = $x("//button[@class='aui-button aui-button-primary search-button' and contains(text(),'Поиск')]").as("кнопка 'Поиск'");
     private final SelenideElement statusElement = $x("//span[contains(@class,'jira-issue-status-lozenge')]").as("статус задачи");
+    private final SelenideElement fixVersions = $x("//span[@id='fixfor-val']//a[contains(text(),'Version 2.0')]").as("версия задачи");
 
     public void searchTask(String taskName) {
         findLink.shouldBe(visible, enabled).click();
@@ -24,6 +25,9 @@ public class TaskSearchPage {
 
     public String getTaskStatus() {
         return statusElement.shouldBe(visible).getText();
+    }
+    public String getFixVersion() {
+        return fixVersions.shouldBe(visible).getText();
     }
 
     public boolean isVersionPresent(String version) {

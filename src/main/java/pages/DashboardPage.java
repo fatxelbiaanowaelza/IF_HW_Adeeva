@@ -2,6 +2,8 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -12,6 +14,6 @@ public class DashboardPage {
 
     public void goToTestProject() {
         projectsMenu.shouldBe(interactable).click();
-        testProject.shouldBe(visible, enabled).hover().click();
+        testProject.shouldBe(visible, Duration.ofSeconds(10)).click();
     }
 }

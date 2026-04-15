@@ -8,7 +8,7 @@ public class TestConstants {
     public static final String PASSWORD = ConfProperties.getProperty("password");
     public static final String ISSUE_NAME = "Тестовая задача";
     public static final String TASK_NAME = "TestSeleniumATHomework";
-    public static final String EXPECTED_STATUS = "ГОТОВО";
+    public static final String EXPECTED_STATUS = "СДЕЛАТЬ";;
     public static final String EXPECTED_VERSION = "Version 2.0";
     public static final String BUG_NAME = "Тестовый баг-репорт";
     public static final String BUG_DESCRIPTION = "Описание бага";

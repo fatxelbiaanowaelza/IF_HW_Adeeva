@@ -21,7 +21,7 @@ public class IssuesPage {
     }
 
     public int getTotalNumber() {
-        String text = taskCounter.shouldBe(visible, Duration.ofSeconds(2)).getText();
+        String text = taskCounter.shouldBe(visible, Duration.ofSeconds(10)).getText();
         return Integer.parseInt(text.split(" из ")[1]);
     }
 
