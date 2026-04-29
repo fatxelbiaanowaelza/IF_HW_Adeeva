@@ -1,7 +1,9 @@
 package pages;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import config.ConfProperties;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,17 +12,28 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class BaseTest {
+public class WebHooks {
 
     @BeforeAll
-    public static void setup() {
+    public static void setUp() {
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
-        Configuration.pageLoadStrategy = PageLoadStrategy.EAGER.toString();
+
+        Configuration.browserCapabilities = options;
         Configuration.browser = "chrome";
+        Configuration.pageLoadStrategy = PageLoadStrategy.EAGER.toString();
 
-        Configuration.pageLoadTimeout = 15_000;
+        Configuration.timeout = 15000;
+        Configuration.pageLoadTimeout = 15000;
+        Configuration.browserSize = "1920x1080";
 
+        SelenideLogger.addListener(
+                "AllureSelenide",
+                new AllureSelenide()
+                        .screenshots(true)
+                        .savePageSource(false)
+        );
     }
 
     @BeforeEach

@@ -1,33 +1,31 @@
 package pages;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import util.TestConstants;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class CreateBugPageTest extends WebHooks {
 
-public class CreateBugTest extends BaseTest {
     @Test
-    void createBugTest() {
+    @DisplayName("Полный сценарий: создание задачи и перевод в статус ГОТОВО")
+    void fullScenarioTest() {
+
         LoginPage loginPage = new LoginPage();
         loginPage.login(TestConstants.USERNAME, TestConstants.PASSWORD);
 
         DashboardPage dashboardPage = new DashboardPage();
-        dashboardPage.goToTestProject();
-
-        IssuesPage issuesPage = new IssuesPage();
-        issuesPage.openAllIssues();
+        dashboardPage.clickTestProject();
 
         TaskSearchPage taskSearchPage = new TaskSearchPage();
         taskSearchPage.searchTask(TestConstants.TASK_NAME);
 
-        CreateBug createBug = new CreateBug();
+        CreateBugPage createBug = new CreateBugPage();
         createBug.createBug(
                 TestConstants.BUG_NAME,
                 TestConstants.BUG_DESCRIPTION,
                 TestConstants.ENVIRONMENT,
                 TestConstants.SEVERITY
         );
-        String status = createBug.getTaskStatus();
-        assertEquals(TestConstants.EXPECTED_STATUS, status);
+        createBug.moveTaskToDone();
     }
 }

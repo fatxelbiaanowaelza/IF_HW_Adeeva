@@ -1,17 +1,18 @@
 package pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.Keys;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
-import static util.TestConstants.ERROR;
-import static util.TestConstants.EXPECTED_STATUS;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.switchTo;
+import static util.TestConstants.STATUS_DONE;
+import static util.TestConstants.STATUS_IN_PROGRESS;
 
-public class CreateBug {
+public class CreateBugPage {
 
     private final SelenideElement createTask = $x("//a[@id='create_link']").as("Кнопка 'Создать' (кнопка для открытия формы создания задачи)");
     private final SelenideElement typeTask = $x("//input[@id='issuetype-field']").as("Поле 'Тип задачи'");
@@ -31,40 +32,43 @@ public class CreateBug {
     private final SelenideElement status = $x("//span[@id='status-val']").as("Статус задачи");
     private final SelenideElement myOpenTasks = $x("//a[@id='filter_lnk_my_lnk']").as("мои открытые задачи");
 
-    public void createBug(String taskName, String description, String environment, String severity) {
-        refresh();
-        createTask.shouldBe(visible, enabled).click();
-        typeTask.shouldBe(visible, enabled).click();
-        typeTask.sendKeys(Keys.CONTROL + "a", Keys.DELETE);
-        typeTask.setValue(ERROR);
-        typeTask.shouldHave(value(ERROR));
-        typeTask.pressEnter();
-        nameTask.shouldBe(visible, enabled).setValue(taskName);
-        nameTask.shouldHave(value(taskName));
-        visualButton.shouldBe(visible, enabled).click();
-        switchTo().frame(iframe);
-        bodyIframe.shouldBe(visible).setValue(description);
-        bodyIframe.shouldHave(text(description));
-        switchTo().defaultContent();
-        versionSelect.shouldBe(visible, enabled).click();
-        priorityField.shouldBe(visible).click();
+    @Step("Создание бага")
+    public void createBug(String name, String description, String environment, String severity) {
 
-        if (envField.exists()) {
-            envField.shouldBe(visible).click();
-            $x("//option[contains(text(),'" + environment + "')]").shouldBe(visible).click();
+        createTask.shouldBe(visible).click();
+        typeTask.shouldBe(visible).setValue("Bug").pressEnter();
+        nameTask.shouldBe(visible).setValue(name);
+
+        if (visualButton.exists()) {
+            visualButton.click();
         }
 
-        severityField.shouldBe(visible).click();
-        $x("//option[contains(text(),'" + severity + "')]").shouldBe(visible).click();
+        switchTo().frame(iframe);
+        bodyIframe.shouldBe(visible).setValue(description);
+        switchTo().defaultContent();
+        versionSelect.click();
+        priorityField.click();
+
+        if (envField.exists()) {
+            envField.click();
+            envField.selectOptionContainingText(environment);
+        }
+
+        severityField.click();
+        severityField.selectOptionContainingText(severity);
+        createButton.shouldBe(visible).click();
     }
 
-    public String getTaskStatus() {
-        createButton.shouldBe(visible, enabled).click();
-        workButton.shouldBe(visible, enabled).click();
-        taskButton.shouldBe(Condition.visible).click();
-        myOpenTasks.shouldBe(Condition.visible).click();
-        businessProcess.shouldBe(Condition.visible).click();
-        doneButton.shouldBe(Condition.visible).click();
-        return status.shouldHave(text(EXPECTED_STATUS), Duration.ofSeconds(10)).getText();
+    @Step("Перевести задачу в статус 'ГОТОВО'")
+    public void moveTaskToDone() {
+        taskButton.shouldBe(visible).click();
+        myOpenTasks.shouldBe(visible).click();
+        businessProcess.shouldBe(visible).click();
+        workButton.shouldBe(visible).click();
+        status.shouldHave(text(STATUS_IN_PROGRESS), Duration.ofSeconds(10));
+        businessProcess.shouldBe(visible).click();
+        doneButton.shouldBe(visible).click();
+        status.shouldHave(text(STATUS_DONE), Duration.ofSeconds(10));
     }
 }
+
