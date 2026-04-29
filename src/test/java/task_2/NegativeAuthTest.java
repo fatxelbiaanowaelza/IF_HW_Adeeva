@@ -1,31 +1,15 @@
 package task_2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import task_2.steps.AuthSteps;
+import task_2.basetest.BaseTest;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class NegativeAuthTest {
-
-    private static AuthSteps authSteps;
-    private static Map<String, String> credentials;
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    @BeforeAll
-    static void setUp() throws Exception {
-        authSteps = new AuthSteps();
-        try (InputStream inputStream = NegativeAuthTest.class.getClassLoader()
-                .getResourceAsStream("user.json")) {
-            credentials = objectMapper.readValue(inputStream, Map.class);
-        }
-    }
+public class NegativeAuthTest extends BaseTest {
 
     @Test
     @DisplayName("Негатив: Логин с несуществующим пользователем")
