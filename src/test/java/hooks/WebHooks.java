@@ -1,4 +1,4 @@
-package pages;
+package hooks;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.webdriver;
 
 public class WebHooks {
 
@@ -28,12 +30,7 @@ public class WebHooks {
         Configuration.pageLoadTimeout = 15000;
         Configuration.browserSize = "1920x1080";
 
-        SelenideLogger.addListener(
-                "AllureSelenide",
-                new AllureSelenide()
-                        .screenshots(true)
-                        .savePageSource(false)
-        );
+        SelenideLogger.addListener( "AllureSelenide", new AllureSelenide() );
     }
 
     @BeforeEach

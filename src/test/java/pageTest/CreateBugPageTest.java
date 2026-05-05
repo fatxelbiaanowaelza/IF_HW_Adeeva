@@ -1,7 +1,12 @@
-package pages;
+package pageTest;
 
+import hooks.WebHooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import page.CreateBugPage;
+import page.DashboardPage;
+import page.LoginPage;
+import page.TaskSearchPage;
 import util.TestConstants;
 
 public class CreateBugPageTest extends WebHooks {

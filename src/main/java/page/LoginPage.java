@@ -1,12 +1,12 @@
-package pages;
+package page;
 
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
 import io.qameta.allure.Param;
+import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter;
 
-
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.SetValueOptions.withText;
 
@@ -16,9 +16,10 @@ public class LoginPage {
     private final SelenideElement passwordInput = $x("//input[@id='login-form-password']").as("поле для ввода пароля");
     private final SelenideElement loginButton = $x("//input[@id='login']").as("кнопка авторизации");
 
-    @Step("Ввести логин")
-    public void enterUsername(@Param(mode = Parameter.Mode.HIDDEN) String username) {
-        loginInput.shouldBe(visible).setValue(withText(username).sensitive());
+    @Step("Ввести логин {username}")
+    public void enterUsername(String username) {
+        loginInput.shouldBe(visible)
+                .setValue(withText(username).sensitive());
     }
 
     @Step("Ввести пароль")
@@ -37,7 +38,7 @@ public class LoginPage {
     }
 
     @Step("Выполнить вход")
-    public void login(@Param(mode = Parameter.Mode.HIDDEN) String username,
+    public void login(String username,
                       @Param(mode = Parameter.Mode.MASKED) String password) {
         enterUsername(username);
         enterPassword(password);
@@ -45,3 +46,4 @@ public class LoginPage {
         verifyLoginSuccess();
     }
 }
+

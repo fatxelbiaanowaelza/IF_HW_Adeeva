@@ -1,7 +1,11 @@
-package pages;
+package pageTest;
 
+import hooks.WebHooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import page.DashboardPage;
+import page.IssuesPage;
+import page.LoginPage;
 import util.TestConstants;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
