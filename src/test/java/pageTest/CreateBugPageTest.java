@@ -12,7 +12,7 @@ import util.TestConstants;
 public class CreateBugPageTest extends WebHooks {
 
     @Test
-    @DisplayName("Полный сценарий: создание задачи и перевод в статус ГОТОВО")
+    @DisplayName("Полный сценарий: создание задачи и перевод в статус : ГОТОВО")
     void fullScenarioTest() {
 
         LoginPage loginPage = new LoginPage();

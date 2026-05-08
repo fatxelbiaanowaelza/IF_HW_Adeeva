@@ -5,8 +5,7 @@ import io.qameta.allure.Param;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter;
 
-import static com.codeborne.selenide.Condition.enabled;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.SetValueOptions.withText;
 
@@ -18,8 +17,7 @@ public class LoginPage {
 
     @Step("Ввести логин {username}")
     public void enterUsername(String username) {
-        loginInput.shouldBe(visible)
-                .setValue(withText(username).sensitive());
+        loginInput.shouldBe(visible).setValue(username);
     }
 
     @Step("Ввести пароль")
@@ -29,7 +27,7 @@ public class LoginPage {
 
     @Step("Нажать кнопку входа")
     public void clickLoginButton() {
-        loginButton.shouldBe(visible, enabled).click();
+        loginButton.shouldBe(visible).shouldBe(enabled).click();
     }
 
     @Step("Проверить, что пользователь авторизован")
