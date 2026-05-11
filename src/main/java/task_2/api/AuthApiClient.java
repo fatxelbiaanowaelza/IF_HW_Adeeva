@@ -1,36 +1,29 @@
 package task_2.api;
 
 import io.restassured.response.ValidatableResponse;
-import java.util.Map;
+import task_2.dto.UserDto;
+
 import static io.restassured.RestAssured.given;
 
 public class AuthApiClient extends BaseApiClient {
 
-    private static final String REGISTER_URL = "/api/register";
-    private static final String LOGIN_URL = "/api/login";
-    private static final String LOGOUT_URL = "/api/logout";
-
-    public ValidatableResponse postRegister(Map<String, String> credentials) {
+    public ValidatableResponse postUserByUrn(UserDto user, String urn) {
         return given()
-                .body(credentials)
+                .baseUri(BASE_URL)
+                .basePath(urn)
+                .header("Content-Type", "application/json")
+                .body(user)
                 .when()
-                .post(REGISTER_URL)
+                .post()
                 .then();
     }
 
-    public ValidatableResponse postLogin(Map<String, String> credentials) {
+    public ValidatableResponse logout(String token, String urn) {
         return given()
-                .body(credentials)
-                .when()
-                .post(LOGIN_URL)
-                .then();
-    }
-
-    public ValidatableResponse postLogout(String token) {
-        return given()
+                .baseUri(BASE_URL)
+                .basePath(urn)
                 .header("Authorization", token)
-                .when()
-                .get(LOGOUT_URL)
+                .get()
                 .then();
     }
 }

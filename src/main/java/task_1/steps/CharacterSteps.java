@@ -1,25 +1,33 @@
 package task_1.steps;
 
-import task_1.api.CharacterRickMortyApi;
-import task_1.dto.Character;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import task_1.api.CharacterApi;
+import task_1.dto.CharacterResponse;
 
 public class CharacterSteps {
-    private static final int MORTY_ID = 2;
-    private final CharacterRickMortyApi api = new CharacterRickMortyApi();
 
-    public Character getMorty() {
-        Response response = api.getCharacterById(MORTY_ID);
-        return response.as(Character.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(CharacterSteps.class);
+
+    private final CharacterApi api;
+
+    public CharacterSteps(CharacterApi api) {
+        this.api = api;
     }
 
-    public Character getCharacterByUrl(String url) {
-        Response response = api.getByUrl(url);
-        return response.as(Character.class);
-    }
+    @Step("Поиск персонажа по имени: {name}")
+    public CharacterResponse getCharacter(String name) {
 
-    public String getLastEpisodeUrl(Character character) {
-        int lastIndex = character.episode.size() - 1;
-        return character.episode.get(lastIndex);
+        log.info("Searching character by name: {}", name);
+
+        Response response = api.searchCharacter(name);
+
+        log.info("Response status: {}", response.getStatusCode());
+        log.debug("Response body:\n{}", response.getBody().asPrettyString());
+
+        return response.as(CharacterResponse.class);
     }
 }

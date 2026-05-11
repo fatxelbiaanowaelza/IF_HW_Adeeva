@@ -1,20 +1,23 @@
 package task_1.api;
 
 import io.restassured.response.Response;
+
 import static io.restassured.RestAssured.given;
 
-public class CharacterRickMortyApi {
+public class CharacterApi {
+
     private static final String BASE_URL = "https://rickandmortyapi.com/api";
     private static final String CHARACTER_PATH = "/character/";
 
-    public Response getCharacterById(int id) {
+    public Response searchCharacter(String name) {
         return given()
                 .baseUri(BASE_URL)
+                .queryParam("name", name)
                 .when()
-                .get(CHARACTER_PATH + id);
+                .get(CHARACTER_PATH);
     }
 
-    public Response getByUrl(String url) {
+    public Response get(String url) {
         return given()
                 .when()
                 .get(url);
